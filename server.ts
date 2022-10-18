@@ -1,36 +1,19 @@
-import Apllication from './src/index';
-import fastifyEnv from '@fastify/env';
-import * as dotenv from 'dotenv';
-import { redis } from './src/config/redis.connection';
-dotenv.config()
+import Fastify, { fastify, FastifyInstance, RouteShorthandOptions } from 'fastify'
+import { Server, IncomingMessage, ServerResponse } from 'http'
 
-const fastify = Apllication();
+const server : FastifyInstance<
+    Server,
+    IncomingMessage,
+    ServerResponse
+> = fastify({logger: true})
 
-const schema = {};
+function build() {
+    server.get('/ping', async (request, reply) => {
+        return { pong: 'it worked!' }
+    });
 
-const start = async () => {
-  const option = {
-    confKey: 'config',
-    schema,
-    dotenv:true,
-    data: process.env
-  }
-
-  fastify.register(fastifyEnv, option)
-  await fastify.after()
+    return server;
 }
 
-start().then(async() => {
-    let port = 3030
-    if (process.env.PORT) port = parseInt(process.env.PORT)
+export default build
 
-    await redis.connect();
-
-    try {
-      await fastify.ready()
-      await fastify.listen({port: port})
-    } catch (err) {
-      fastify.log.error(err);
-      process.exit(1);
-    }
-})
