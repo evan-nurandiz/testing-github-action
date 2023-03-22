@@ -1,33 +1,17 @@
-import Apllication from '../server';
-import fastifyEnv from '@fastify/env';
-import * as dotenv from 'dotenv';
-dotenv.config()
+import { fastify, FastifyInstance } from 'fastify'
+import { Server, IncomingMessage, ServerResponse } from 'http'
+import * as Plugin from './api/lib/server-plugin';
 
-const fastify = Apllication();
+const server : FastifyInstance<
+  Server,
+  IncomingMessage,
+  ServerResponse
+> = fastify({logger: true})
 
-const schema = {};
-
-const start = async () => {
-  const option = {
-    confKey: 'config',
-    schema,
-    dotenv:true,
-    data: process.env
-  }
-
-  fastify.register(fastifyEnv, option)
-  await fastify.after()
+function build() {
+  server.decorateReply('success', Plugin.successResponse)
+  server.decorateReply('error', Plugin.errorResponse)
+  return server;
 }
 
-start().then(async() => {
-    let port = 3030
-    if (process.env.PORT) port = parseInt(process.env.PORT)
-
-    try {
-        await fastify.ready()
-        await fastify.listen({port: port})
-    } catch (err) {
-      fastify.log.error(err);
-      process.exit(1);
-    }
-})
+export default build

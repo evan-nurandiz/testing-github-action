@@ -1,19 +1,37 @@
-import Fastify, { fastify, FastifyInstance, RouteShorthandOptions } from 'fastify'
-import { Server, IncomingMessage, ServerResponse } from 'http'
+import Apllication from './src/index';
+import fastifyEnv from '@fastify/env';
+import * as dotenv from 'dotenv';
+dotenv.config()
 
-const server : FastifyInstance<
-    Server,
-    IncomingMessage,
-    ServerResponse
-> = fastify({logger: true})
+const fastify = Apllication();
 
-function build() {
-    server.get('/ping', async (request, reply) => {
-        return { pong: 'it worked!' }
-    });
+const schema = {};
 
-    return server;
+import autoload from '@fastify/autoload';
+import path from 'path';
+
+const start = async () => {
+  const option = {
+    confKey: 'config',
+    schema,
+    dotenv:true,
+    data: process.env
+  }
+
+  await fastify.register(require('./src/api'),{prefix: 'api'})
+  await fastify.register(fastifyEnv, option)
+  await fastify.after()
 }
 
-export default build
+start().then(async() => {
+    let port = 3030
+    if (process.env.PORT) port = parseInt(process.env.PORT)
 
+    try {
+      await fastify.ready()
+      await fastify.listen({port: port})
+    } catch (err) {
+      fastify.log.error(err);
+      process.exit(1);
+    }
+})
