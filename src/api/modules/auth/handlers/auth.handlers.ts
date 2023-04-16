@@ -1,6 +1,7 @@
-import fastify, { FastifyReply, FastifyRequest } from "fastify";
+import { FastifyRequest } from "fastify";
 import {db} from '../../../../config/db.connection';
-import Promises from 'bluebird';
+import Promises, { is } from 'bluebird';
+import { createToken } from "../helpers/jwt.helpers";
 const bcrypt    = Promises.Promise.promisifyAll(require('bcrypt'));
 
 export const Login = async(request:FastifyRequest<{
@@ -34,19 +35,15 @@ export const Login = async(request:FastifyRequest<{
             )
         }
 
-        const refreshToken = request.server.jwt.sign(user, {
-            expiresIn: '7d'
-        })
-        const token = request.server.jwt.sign(user, {
-            expiresIn: '1h'
-        })
+        const token = createToken(user)
 
         return reply.success({
             email: email,
+            user_id: user.user_id,
             name: user.name,
-            token: token,
-            refresh_token: refreshToken
-        })
+            token: token.token,
+            refresh_token: token.refreshToken
+        }, "success login")
     } catch (err) {
         return reply.error(400, err);
     }
