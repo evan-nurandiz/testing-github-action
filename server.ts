@@ -1,14 +1,12 @@
 import Apllication from './src/index';
 import fastifyEnv from '@fastify/env';
 import * as dotenv from 'dotenv';
+import fastifyJWT from '@fastify/jwt';
 dotenv.config()
 
-const fastify = Apllication();
+export const fastify = Apllication();
 
 const schema = {};
-
-import autoload from '@fastify/autoload';
-import path from 'path';
 
 const start = async () => {
   const option = {
@@ -19,6 +17,9 @@ const start = async () => {
   }
 
   await fastify.register(require('./src/api'),{prefix: 'api'})
+  await fastify.register(require('@fastify/jwt'), {
+    secret: process.env.JWT_SECRET
+  })
   await fastify.register(fastifyEnv, option)
   await fastify.after()
 }

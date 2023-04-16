@@ -6,9 +6,9 @@ export const successResponse = (data:any, message: string) => {
     }
 }
 
-export const errorResponse = (message: string) => {
+export const errorResponse = (status: number,message: string) => {
     return {
-        "status": 400,
+        "status": status,
         "message": message,
     }
 }
