@@ -1,0 +1,22 @@
+{
+  "name": "marketplace-data-mining",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/evan-nurandiz/testing-github-action.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/evan-nurandiz/testing-github-action/issues"
+  },
+  "homepage": "https://github.com/evan-nurandiz/testing-github-action#readme",
+  "dependencies": {
+    "node-cron": "^4.2.0"
+  }
+}
