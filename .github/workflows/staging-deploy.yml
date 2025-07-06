@@ -1,0 +1,21 @@
+name: deploy staging
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'dockerfile'
+
+jobs:
+  publish_images:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: build image
+        run: |
+          docker build . -t evannurandiz00/testing:latest
+      - name: push image to docker hub
+        run: |
+          docker login -u evannurandiz00 -p ${{ secrets.DOCKER_HUB_TOKEN }}
+          docker push evannurandiz00/testing:latest
