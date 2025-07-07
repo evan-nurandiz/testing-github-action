@@ -1,0 +1,13 @@
+version: "3"
+
+services:
+  web:
+    image: evannurandiz00/testing:latest
+    container_name: webapp
+    expose:
+     - "3030"
+    ports:
+      - "3030:3030"
+    volumes:
+      - .:/apps
+      - /apps/node_modules

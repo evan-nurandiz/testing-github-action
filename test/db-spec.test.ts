@@ -1,4 +1,4 @@
-import {migrateDatabase} from '../lib/db'
+import {migrateDatabase} from 'src/api/lib/db'
 
 describe('db', () => {
     xit('checking test', () => {

@@ -12,10 +12,22 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v4
+
       - name: build image
         run: |
           docker build . -t evannurandiz00/testing:latest
+
       - name: push image to docker hub
         run: |
           docker login -u evannurandiz00 -p ${{ secrets.DOCKER_HUB_TOKEN }}
           docker push evannurandiz00/testing:latest
+  
+      - name: Deploy using ssh
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            cd ~/docker-compose-pg
