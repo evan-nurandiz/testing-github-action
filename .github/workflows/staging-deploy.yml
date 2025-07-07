@@ -48,4 +48,4 @@ jobs:
           port: 22
           script: |
             cd ~/docker-compose-app
-            docker stack deploy -c docker-compose-app.yaml app
+            sudo docker stack deploy -c docker-compose-app.yaml app
