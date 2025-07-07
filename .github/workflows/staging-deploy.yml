@@ -23,6 +23,22 @@ jobs:
           docker login -u evannurandiz00 -p ${{ secrets.DOCKER_HUB_TOKEN }}
           docker push evannurandiz00/testing:latest
   
+      - name: Create .env file on VPS
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            cat > ~/docker-compose-app/.env << EOT
+            DB_USER=${{ secrets.DB_USER }}
+            DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+            DB_HOST=${{ secrets.DB_HOST }}
+            DB_PORT=${{ secrets.DB_PORT }}
+            DB_NAME=${{ secrets.DB_NAME }}
+            EOT
+
       - name: Deploy using ssh
         uses: appleboy/ssh-action@master
         with:
@@ -31,4 +47,5 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            cd ~/docker-compose-pg
+            cd ~/docker-compose-app
+            docker stack deploy -c docker-compose-app.yaml app

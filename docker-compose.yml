@@ -3,11 +3,24 @@ version: "3"
 services:
   web:
     image: evannurandiz00/testing:latest
+    environment:
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - DB_NAME=${DB_NAME}
     container_name: webapp
     expose:
      - "3030"
     ports:
       - "3030:3030"
     volumes:
-      - .:/apps
-      - /apps/node_modules
+      - apps:/apps
+    deploy:
+      resources:
+        limits:
+          memory: "500m"
+          cpus: "0.4"
+
+volumes:
+  apps:
