@@ -13,25 +13,15 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v4
-
-      - name: Prepare env variables
-        id: vars
-        run: |
-          export COMMIT_DATE=$(LC_TIME="C" TZ="Asia/Jakarta" date +''%y.%m.%d-%H.%M'' --date="$(git show ${GITHUB_SHA} --format=%cd --date=iso | head -n 1)")
-          export RELEASE_TAG=${GITHUB_SHA::8}-$COMMIT_DATE
-          export COMMIT_MESSAGE=$(git log -1 --pretty=oneline --abbrev-commit --format="%B" | head -n 1 | sed "s/,/\\\,/g;")
-          echo "CHANGE_CAUSE=${RELEASE_TAG} - ${COMMIT_MESSAGE}" >> $GITHUB_ENV
-          echo "RELEASE_TAG=${RELEASE_TAG}" >> $GITHUB_ENV
-          echo "COMMIT_MESSAGE=${COMMIT_MESSAGE}" >> $GITHUB_ENV
   
       - name: build image
         run: |
-          docker build . -t evannurandiz00/testing:${{ env.RELEASE_TAG }}
+          docker build . -t evannurandiz00/testing:latest
 
       - name: push image to docker hub
         run: |
           docker login -u evannurandiz00 -p ${{ secrets.DOCKER_HUB_TOKEN }}
-          docker push evannurandiz00/testing:${{ env.RELEASE_TAG }}
+          docker push evannurandiz00/testing:latest
   
       - name: Create .env file on VPS
         uses: appleboy/ssh-action@master
