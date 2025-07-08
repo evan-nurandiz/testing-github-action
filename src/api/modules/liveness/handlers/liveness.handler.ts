@@ -8,7 +8,7 @@ export const Liveness = async(request:FastifyRequest<{
 }>, reply: any) => {
     return reply.success({
         status: "GOOD"
-    }, "OK")
+    }, "GOOD")
 }
 
 module.exports = {

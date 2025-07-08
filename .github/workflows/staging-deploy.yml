@@ -61,4 +61,4 @@ jobs:
             cd ~/docker-compose-app
             sudo docker-compose -f docker-compose-app.yml pull
             sudo docker stack config -c docker-compose-app.yml
-            sudo docker stack deploy -c docker-compose-app.yml app_web
+            sudo docker stack deploy -c docker-compose-app.yml --with-registry-auth app_web
