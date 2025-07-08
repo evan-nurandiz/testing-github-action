@@ -26,7 +26,7 @@ jobs:
   
       - name: build image
         run: |
-          docker build . -t evannurandiz00/testing:latest
+          docker build . -t evannurandiz00/testing:${{ env.RELEASE_TAG }}
 
       - name: push image to docker hub
         run: |
@@ -61,5 +61,5 @@ jobs:
             cd ~/docker-compose-app
             sudo docker-compose -f docker-compose-app.yml pull
             sudo docker stack config -c docker-compose-app.yml
-            sudo docker stack deploy -c docker-compose-app.yml app
+            sudo docker service update --image evannurandiz00/testing:${{ env.RELEASE_TAG }} app_web
             sudo rm -rf .env
