@@ -1,5 +1,4 @@
 import { FastifyRequest } from "fastify";
-import Promises from 'bluebird';
 
 export const Liveness = async(request:FastifyRequest<{
     Body: {
@@ -8,7 +7,7 @@ export const Liveness = async(request:FastifyRequest<{
     }
 }>, reply: any) => {
     return reply.success({
-        status: "OK"
+        status: "GOOD"
     }, "OK")
 }
 
