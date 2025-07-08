@@ -23,11 +23,14 @@ jobs:
           echo "CHANGE_CAUSE=${RELEASE_TAG} - ${COMMIT_MESSAGE}" >> $GITHUB_ENV
           echo "RELEASE_TAG=${RELEASE_TAG}" >> $GITHUB_ENV
           echo "COMMIT_MESSAGE=${COMMIT_MESSAGE}" >> $GITHUB_ENV
+  
+      - name: build image
+        run: |
+          docker build . -t evannurandiz00/testing:${{ env.RELEASE_TAG }}
 
       - name: push image to docker hub
         run: |
           docker login -u evannurandiz00 -p ${{ secrets.DOCKER_HUB_TOKEN }}
-          docker build --no-cache -t evannurandiz00/testing:${{ env.RELEASE_TAG }}
           docker push evannurandiz00/testing:${{ env.RELEASE_TAG }}
   
       - name: Create .env file on VPS
