@@ -61,5 +61,4 @@ jobs:
             cd ~/docker-compose-app
             sudo docker-compose -f docker-compose-app.yml pull
             sudo docker stack config -c docker-compose-app.yml
-            sudo docker service update --image evannurandiz00/testing:${{ env.RELEASE_TAG }} app_web
-            sudo rm -rf .env
+            sudo docker stack deploy -c docker-compose-app.yml app
