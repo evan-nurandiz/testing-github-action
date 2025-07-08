@@ -50,5 +50,5 @@ jobs:
           script: |
             cd ~/docker-compose-app
             sudo docker stack config -c docker-compose-app.yml
-            sudo docker stack deploy -c docker-compose-app.yaml app
+            sudo docker stack deploy -c docker-compose-app.yml app
             sudo rm -rf .env
