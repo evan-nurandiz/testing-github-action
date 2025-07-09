@@ -49,5 +49,5 @@ jobs:
           port: 22
           script: |
             cd ~/docker-compose-app
-            sudo docker-compose pull
-            sudo docker-compose -f docker-compose-app.yml up -d
+            sudo docker pull evannurandiz00/testing:latest
+            sudo docker service update --image evannurandiz00/testing:latest --force app

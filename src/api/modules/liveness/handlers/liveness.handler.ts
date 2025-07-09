@@ -11,6 +11,11 @@ export const Liveness = async(request:FastifyRequest<{
     }, "OK")
 }
 
+export const Health = async(_: FastifyRequest, reply: any) => {
+    return reply.success({ status: 'healthy', timestamp: new Date().toISOString() }, "OK")
+}
+
 module.exports = {
-    Liveness
+    Liveness,
+    Health
 }
