@@ -51,4 +51,3 @@ jobs:
             cd ~/docker-compose-app
             sudo docker-compose pull
             sudo docker-compose -f docker-compose-app.yml up -d
-            sudo rm -rf .env
