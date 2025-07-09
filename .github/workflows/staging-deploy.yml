@@ -49,6 +49,6 @@ jobs:
           port: 22
           script: |
             cd ~/docker-compose-app
-            sudo docker-compose -f docker-compose-app.yml pull
-            sudo docker stack config -c docker-compose-app.yml
-            sudo docker stack deploy -c docker-compose-app.yml --with-registry-auth app_web
+            sudo docker-compose pull
+            sudo docker-compose -f docker-compose-app.yml up -d
+            sudo rm -rf .env
