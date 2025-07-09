@@ -54,4 +54,4 @@ jobs:
           script: |
             cd ~/docker-compose-app
             sudo docker pull evannurandiz00/testing:latest
-            sudo docker service update --image evannurandiz00/testing:latest --force app
+            sudo docker service update --image evannurandiz00/testing:latest --force app_web
