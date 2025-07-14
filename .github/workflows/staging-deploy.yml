@@ -20,6 +20,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
+          no-cache: true
           push: true
           file: Dockerfile
           tags: evannurandiz00/testing:latest
