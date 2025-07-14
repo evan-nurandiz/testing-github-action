@@ -1,11 +1,8 @@
 name: deploy staging
 on:
-  workflow_dispatch:
-  # push:
-  #   branches:
-  #     - main
-  #   paths:
-  #     - 'dockerfile'
+  push:
+    branches:
+      - main
 
 jobs:
   publish_images:
@@ -25,7 +22,9 @@ jobs:
         with:
           context: .
           push: true
+          file: Dockerfile
           tags: evannurandiz00/testing:latest
+          target: dist
   
       - name: Create .env file on VPS
         uses: appleboy/ssh-action@master
