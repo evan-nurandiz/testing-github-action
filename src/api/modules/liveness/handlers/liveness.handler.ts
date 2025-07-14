@@ -7,8 +7,8 @@ export const Liveness = async(request:FastifyRequest<{
     }
 }>, reply: any) => {
     return reply.success({
-        status: "OK"
-    }, "OK")
+        status: "OKS"
+    }, "OKS")
 }
 
 export const Health = async(_: FastifyRequest, reply: any) => {
