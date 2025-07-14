@@ -20,11 +20,9 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
-          context: .
           push: true
           file: Dockerfile
           tags: evannurandiz00/testing:latest
-          target: dist
   
       - name: Create .env file on VPS
         uses: appleboy/ssh-action@master
