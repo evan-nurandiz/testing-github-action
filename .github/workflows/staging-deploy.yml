@@ -11,6 +11,9 @@ jobs:
       - name: checkout
         uses: actions/checkout@v4
   
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+    
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
@@ -20,7 +23,6 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
-          no-cache: true
           push: true
           file: Dockerfile
           tags: evannurandiz00/testing:latest
@@ -52,4 +54,4 @@ jobs:
           script: |
             cd ~/docker-compose-app
             sudo docker pull evannurandiz00/testing:latest
-            sudo docker service update --image evannurandiz00/testing:latest --force app_web
+            sudo docker stack deploy -c docker-compose-app.yml app
